@@ -27,6 +27,11 @@ private_key_file = path-to-private-key
 host_key_checking = false
 retry_files_enabled = False
 deprecation_warnings=False
+gathering = smart
+fact_caching = jsonfile
+fact_caching_connection = facts_cache
+# one hour timeout
+fact_caching_timeout = 3600
 ```
 
 ### Check cluster health 
