@@ -1,0 +1,34 @@
+[Unit]
+Description=etcd
+Documentation=https://coreos.com/etcd/docs/latest/clustering.html
+Requires=network.target
+After=network.target
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/etcd/etcd.conf
+WorkingDirectory=/var/lib/etcd
+User=etcd
+PermissionsStartOnly=true
+ExecStart=/opt/bin/etcd \
+--name ${ETCD_NAME} \
+--initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \
+--listen-peer-urls ${ETCD_LISTEN_PEER_URLS} \
+--listen-client-urls ${ETCD_LISTEN_CLIENT_URLS} \
+--advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS} \
+--initial-cluster-token ${ETCD_INITIAL_CLUSTER_TOKEN} \
+--initial-cluster ${ETCD_INITIAL_CLUSTER} \
+--initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+--cert-file ${ETCD_CERT_FILE} \
+--key-file ${ETCD_KEY_FILE} \
+--trusted-ca-file ${ETCD_TRUSTED_CA_FILE} \
+--peer-cert-file ${ETCD_PEER_CERT_FILE} \
+--peer-key-file ${ETCD_PEER_KEY_FILE} \
+--peer-trusted-ca-file ${ETCD_TRUSTED_CA_FILE} \
+--data-dir ${ETCD_DATA_DIR} 
+Restart=always
+RestartSec=10s
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

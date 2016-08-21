@@ -1,0 +1,46 @@
+---
+- name: Configure cluster
+  hosts: cluster
+  sudo: True
+  tasks:
+    - name: centos .bash_profile
+      copy: src=files/bash_profile dest=/home/centos/.bash_profile
+
+    - name: create etcd user
+      user: name=etcd shell=/sbin/nologin comment="etcd user"
+
+    - name: CA cert
+      copy: src=files/ca.pem dest=/etc/ssl/certs/ca.pem mode=755
+
+    - name: server cert
+      copy: src=files/server.pem dest=/etc/ssl/certs/etcd.pem owner=etcd mode=755
+
+    - name: server key
+      copy: src=files/server-key.pem dest=/etc/ssl/etcd.key owner=etcd mode=0700
+
+    - name: etcd systemd service
+      copy: src=files/etcd.service dest=/etc/systemd/system/etcd.service
+
+    - name: create /var/lib/etcd
+      file: path=/var/lib/etcd state=directory owner=etcd mode=0775
+
+    - name: create /etc/etcd
+      file: path=/etc/etcd state=directory owner=etcd mode=0775
+
+    - name: template etcd.conf
+      template: src=files/etcd.j2 dest=/etc/etcd/etcd.conf owner=etcd mode=0755
+
+    - name: copy etcd rpm
+      copy: src=files/etcd-2.3.5-1.x86_64.rpm dest=/tmp/etcd-2.3.5-1.x86_64.rpm
+
+    - name: install etcd rpm
+      command: rpm -i /tmp/etcd-2.3.5-1.x86_64.rpm
+
+    - name: make etcd own /opt/bin/etcd
+      file: path=/opt/bin/etcd owner=etcd mode=0755
+
+    - name: enable etcd
+      command: systemctl enable etcd
+
+    - name: start etcd
+      command: systemctl start etcd

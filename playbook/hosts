@@ -1,0 +1,6 @@
+[cluster]
+e1 ansible_ssh_host=10.2.23.13
+e2 ansible_ssh_host=10.2.23.12
+e3 ansible_ssh_host=10.2.23.8
+e4 ansible_ssh_host=10.2.23.7
+e5 ansible_ssh_host=10.2.23.6
