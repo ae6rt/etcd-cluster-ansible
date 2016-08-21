@@ -43,6 +43,17 @@ member fcf5df0a8257b7a1 is healthy: got healthy result from https://10.2.23.13:2
 cluster is healthy
 ```
 
+### Get/Set a key
+
+```
+$ etcdctl --ca-file files/ca.pem --endpoint https://10.2.23.7:2379 set foo bar
+bar
+$ etcdctl --ca-file files/ca.pem --endpoint https://10.2.23.7:2379 get foo 
+bar
+$ etcdctl --ca-file files/ca.pem --endpoint https://10.2.23.8:2379 get foo 
+bar
+```
+
 ## Reference
 
 https://coreos.com/etcd/docs/latest/clustering.html
