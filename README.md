@@ -1,7 +1,6 @@
 ## Standup a 5 node etcd cluster secured with TLS with Ansible
 
-This guide assumes you have 5 CentOS7 EC2 nodes setup, and that
-these hosts are inventoried in the playbook/hosts file.
+This guide assumes you have 5 CentOS7 EC2 nodes setup, and that these hosts are inventoried in the playbook/hosts file.
 
 ### Generate an RPM with etcd binaries
 
@@ -14,6 +13,7 @@ Copy the rpm to playbook/files/
 ### Run the playbook
 
 ```
+$ cd playbook
 $ ansible-playbook play.yaml 
 ```
 
