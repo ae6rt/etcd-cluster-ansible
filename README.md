@@ -42,3 +42,7 @@ member f3d233a83998c7ef is healthy: got healthy result from https://10.2.23.6:23
 member fcf5df0a8257b7a1 is healthy: got healthy result from https://10.2.23.13:2379
 cluster is healthy
 ```
+
+## Reference
+
+https://coreos.com/etcd/docs/latest/clustering.html
