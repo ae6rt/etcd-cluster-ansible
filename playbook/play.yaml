@@ -3,6 +3,11 @@
   hosts: cluster
   sudo: True
   tasks:
+    - name: facts
+      ping:
+      tags:
+        - debug
+
     - name: centos .bash_profile
       copy: src=files/bash_profile dest=/home/centos/.bash_profile
 

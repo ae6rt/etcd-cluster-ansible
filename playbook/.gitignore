@@ -1,2 +1,3 @@
 files/*.rpm
 ansible.cfg
+facts_cache/
