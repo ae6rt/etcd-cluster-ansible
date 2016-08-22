@@ -1,0 +1,19 @@
+{
+  "CN": "etcd",
+  "hosts": [
+    "127.0.0.1",
+    "localhost",
+    "10.2.23.7"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "L": "Petaluma",
+      "ST": "California"
+    }
+  ]
+}

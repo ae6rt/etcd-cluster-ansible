@@ -3,13 +3,22 @@
   hosts: cluster
   sudo: True
   tasks:
-    - name: facts
-      ping:
-      tags:
-        - debug
-
     - name: centos .bash_profile
       copy: src=files/bash_profile dest=/home/centos/.bash_profile
+
+    - name: csr
+      template: src=files/csr.j2 dest=files/csr.{{inventory_hostname}}
+      delegate_to: localhost
+      sudo: false
+
+    - name: sign csr
+      shell: >
+              chdir=../ca
+              creates=../playbook/files/{{inventory_hostname}}.pem
+              cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server ../playbook/files/csr.{{inventory_hostname}}
+              | cfssljson -bare ../playbook/files/{{inventory_hostname}}
+      delegate_to: localhost
+      sudo: false
 
     - name: create etcd user
       user: name=etcd shell=/sbin/nologin comment="etcd user"
@@ -18,10 +27,10 @@
       copy: src=files/ca.pem dest=/etc/ssl/certs/ca.pem mode=755
 
     - name: server cert
-      copy: src=files/server.pem dest=/etc/ssl/certs/etcd.pem owner=etcd mode=755
+      copy: src=files/{{inventory_hostname}}.pem dest=/etc/ssl/certs/etcd.pem owner=etcd mode=755
 
     - name: server key
-      copy: src=files/server-key.pem dest=/etc/ssl/etcd.key owner=etcd mode=0700
+      copy: src=files/{{inventory_hostname}}-key.pem dest=/etc/ssl/etcd.key owner=etcd mode=0700
 
     - name: etcd systemd service
       copy: src=files/etcd.service dest=/etc/systemd/system/etcd.service
