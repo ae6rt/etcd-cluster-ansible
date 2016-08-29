@@ -3,7 +3,10 @@
   "hosts": [
     "127.0.0.1",
     "localhost",
-    "{{ansible_eth0["ipv4"]["address"]}}"
+    "{{ansible_eth0["ipv4"]["address"]}}",
+    "{{ansible_hostname}}",
+    "{{ansible_fqdn}}",
+    "{{inventory_hostname}}
   ],
   "key": {
     "algo": "rsa",
